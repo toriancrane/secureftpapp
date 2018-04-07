@@ -34,7 +34,6 @@ router.post('/', function(req, res){
     var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
     cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: function (result) {
-            console.log('access token + ' + result.getAccessToken().getJwtToken());
 
             //POTENTIAL: Region needs to be set if not already set previously elsewhere.
             AWS.config.region = 'us-west-2';
@@ -55,13 +54,17 @@ router.post('/', function(req, res){
                      // Instantiate aws sdk service objects now that the credentials have been updated.
                      // example: var s3 = new AWS.S3();
                      console.log('Successfully logged!');
+                     res.redirect('/folders');
                 }
             });
         },
         
         newPasswordRequired: function(userAttributes, requiredAttributes) {
             delete userAttributes.email_verified;
+            //res.redirect('/changepass');
+            //var newpass = req.body.new_password;
             cognitoUser.completeNewPasswordChallenge("Test@12345", userAttributes, this);
+
         },
 
         onFailure: function(err) {

@@ -1,9 +1,11 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET Folders page. */
+
+/* GET ChangePass page. */
 router.get('/', function(req, res, next) {
-  res.render('folders');
+  res.render('changepass');
 });
+
 
 module.exports = router;
