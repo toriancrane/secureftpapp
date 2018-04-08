@@ -68,7 +68,9 @@ router.post('/', function(req, res) {
             delete userAttributes.email_verified;
             var newpass = req.body.new_password;
             cognitoUser.completeNewPasswordChallenge(newpass, userAttributes);
-            res.redirect('/messages');
+            var msg = "You have successfully changed your password! Please log in."
+            req.flash('info', msg)
+            res.redirect('/');
         },
 
         onFailure: function(err) {
