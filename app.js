@@ -2,7 +2,6 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-var flash = require('express-flash');
 var session = require('express-session')
 var logger = require('morgan');
 //var handlebars = require('express-handlebars')
@@ -28,15 +27,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser('secretString'));
 app.use(session({cookie: { maxAge: 60000 }}));
-app.use(flash());
+app.use(require('connect-flash')());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(function(req, res, next){
-    // if there's a flash message in the session request, make it available in the response, then delete it
-    res.locals.sessionFlash = req.session.sessionFlash;
-    delete req.session.sessionFlash;
-    next();
+app.use(function (req, res, next) {
+  res.locals.messages = require('express-messages')(req, res)();
+  next();
 });
 
 //Routes

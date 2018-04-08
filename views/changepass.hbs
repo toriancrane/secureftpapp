@@ -41,7 +41,7 @@
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                             <div class="input-group-addon"></div>
                             <input type="password" name="new_password" class="form-control" id="new_password"
-                                   placeholder="Enter New Password" required>
+                                   placeholder="Enter New Password" onkeyup='check();' required>
                         </div>
                     </div>
                 </div>
@@ -54,14 +54,14 @@
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                             <div class="input-group-addon"></div>
                             <input type="password" name="confirm_password" class="form-control" id="confirm_password"
-                                   placeholder="Confirm Password" required>
+                                   placeholder="Confirm Password" onkeyup='check();' required>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-control-feedback">
                         <span class="text-danger align-middle">
-                        <!-- Put password error message here -->    
+                        <span id='message'></span>   
                         </span>
                     </div>
                 </div>
@@ -69,8 +69,10 @@
             <div class="row" style="padding-top: 1rem">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
-                    <button type="submit" class="btn btn-success btn-block"><i class="fa fa-sign-in"></i> Submit</button>
+                    <button type="submit" id="submit" class="btn btn-success btn-block"><i class="fa fa-sign-in"></i> Submit</button>
                 </div>
             </div>
         </form>
     </div>
+    
+    <script src="/javascripts/changepass.js"></script>

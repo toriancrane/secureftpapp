@@ -74,6 +74,8 @@ router.post('/', function(req, res) {
         onFailure: function(err) {
             console.log(err);
             console.log(new Error().stack);
+            req.flash('info', err.message)
+            res.redirect('/changepass');
         },
 
     });

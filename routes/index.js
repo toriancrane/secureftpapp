@@ -73,7 +73,7 @@ router.post('/', function(req, res){
         onFailure: function(err) {
             console.log(err);
             console.log(new Error().stack);
-            req.flash('success', 'This is a flash message using the express-flash module.');
+            req.flash('info', err.message)
             res.redirect('/');
         },
 
