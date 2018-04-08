@@ -1,4 +1,5 @@
 var express = require('express');
+var app = express();
 var router = express.Router();
 
 var AWS = require('aws-sdk');
@@ -32,11 +33,14 @@ router.post('/', function(req, res){
         Pool : userPool
     };
     var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+    req.session.cognitoUser = cognitoUser;
+    
     cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: function (result) {
 
             //POTENTIAL: Region needs to be set if not already set previously elsewhere.
             AWS.config.region = 'us-west-2';
+            
 
             AWS.config.credentials = new AWS.CognitoIdentityCredentials({
                 IdentityPoolId : 'us-west-2:e58465a5-5e9a-4842-a27d-693c5bde4553', // your identity pool id here
@@ -50,6 +54,7 @@ router.post('/', function(req, res){
             AWS.config.credentials.refresh((error) => {
                 if (error) {
                      console.error(error);
+                     res.redirect('/');
                 } else {
                      // Instantiate aws sdk service objects now that the credentials have been updated.
                      // example: var s3 = new AWS.S3();
@@ -61,15 +66,15 @@ router.post('/', function(req, res){
         
         newPasswordRequired: function(userAttributes, requiredAttributes) {
             delete userAttributes.email_verified;
-            //res.redirect('/changepass');
-            //var newpass = req.body.new_password;
-            cognitoUser.completeNewPasswordChallenge("Test@12345", userAttributes, this);
+            res.redirect('/changepass');
 
         },
 
         onFailure: function(err) {
             console.log(err);
             console.log(new Error().stack);
+            req.flash('success', 'This is a flash message using the express-flash module.');
+            res.redirect('/');
         },
 
     });
