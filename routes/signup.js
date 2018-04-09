@@ -8,7 +8,7 @@ var CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
 
 
 
-/* GET home page. */
+/* GET signup page. */
 router.get('/', function(req, res, next) {
   res.render('signup');
 });

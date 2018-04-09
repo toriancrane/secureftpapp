@@ -36,6 +36,11 @@ app.use(function (req, res, next) {
   next();
 });
 
+//Global Variables
+app.locals.UserPoolId = 'us-west-2_sFuJmXBam';
+app.locals.ClientId = '7v3io0egl88bujb261ecdjiubn';
+app.locals.IdentityPoolId = 'us-west-2:e58465a5-5e9a-4842-a27d-693c5bde4553';
+
 //Routes
 app.use('/', indexRouter);
 app.use('/signup', signupRouter);
