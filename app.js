@@ -11,6 +11,7 @@ var signupRouter = require('./routes/signup');
 var changepassRouter = require('./routes/changepass');
 var forgotpassRouter = require('./routes/forgotpass');
 var foldersRouter = require('./routes/folders');
+var contentsRouter = require('./routes/contents');
 var logoutRouter = require('./routes/logout');
 var messagesRouter = require('./routes/messages');
 
@@ -45,6 +46,7 @@ app.locals.IdentityPoolId = 'us-west-2:e58465a5-5e9a-4842-a27d-693c5bde4553';
 app.use('/', indexRouter);
 app.use('/signup', signupRouter);
 app.use('/folders', foldersRouter);
+app.use('/', contentsRouter);
 app.use('/changepass', changepassRouter);
 app.use('/forgotpass', forgotpassRouter);
 app.use('/logout', logoutRouter);
