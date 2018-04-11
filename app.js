@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session')
 var logger = require('morgan');
 var hbs = require('hbs')
+var AWS = require('aws-sdk');
 
 
 var indexRouter = require('./routes/index');
@@ -13,6 +14,7 @@ var changepassRouter = require('./routes/changepass');
 var forgotpassRouter = require('./routes/forgotpass');
 var foldersRouter = require('./routes/folders');
 var contentsRouter = require('./routes/contents');
+var uploadRouter = require('./routes/upload');
 var logoutRouter = require('./routes/logout');
 var messagesRouter = require('./routes/messages');
 
@@ -49,6 +51,7 @@ app.use('/', indexRouter);
 app.use('/signup', signupRouter);
 app.use('/folders', foldersRouter);
 app.use('/', contentsRouter);
+app.use('/', uploadRouter);
 app.use('/changepass', changepassRouter);
 app.use('/forgotpass', forgotpassRouter);
 app.use('/logout', logoutRouter);

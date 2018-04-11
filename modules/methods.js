@@ -37,4 +37,13 @@ function isAuthenticated(req, res, next){
     }
 }
 
+
+function uniq(a) {
+    var seen = {};
+    return a.filter(function(item) {
+        return seen.hasOwnProperty(item) ? false : (seen[item] = true);
+    });
+}
+
 exports.isAuthenticated = isAuthenticated;
+exports.uniq = uniq;

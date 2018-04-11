@@ -3,24 +3,36 @@
 <!-- Datatables CSS -->
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
 
-<div class="container">
-    <table id="table" class="table table-striped table-bordered" style="width:100%">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Size</th>
-                <th>Last Modified</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each contents}}
-            <tr>
-                <td><a href="">{{this}}</a></td>
-                <td>Size will go here.</td>
-                <td>Last Modified will go here.</td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
+<section class="jumbotron text-center">
+    <div class="container">
+      <h1 class="jumbotron-heading">Your Documents</h1>
+      <p class="lead text-muted">Below you will find the contents of your file share. To upload a new file, click the "Upload" button below.</p>
+      <p>
+        <a href="/folders/{{folderName}}/upload" class="btn btn-primary my-2">Upload Documents</a>
+      </p>
+    </div>
+</section>
+
+<div class="album py-5 bg-light">
+    <div class="container">
+        <table id="table" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Size</th>
+                    <th>Last Modified</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each contents}}
+                <tr>
+                    <td><a href="">{{this}}</a></td>
+                    <td>Size will go here.</td>
+                    <td>Last Modified will go here.</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
 </div>
 

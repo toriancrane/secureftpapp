@@ -42,6 +42,7 @@ router.post('/', function(req, res){
         onSuccess: function (result) {
             
             //console.log('access token + ' + result.getAccessToken().getJwtToken());
+            //console.log('ID Token is: ' + result.getIdToken().getJwtToken());
             
             //POTENTIAL: Region needs to be set if not already set previously elsewhere.
             AWS.config.region = 'us-west-2';
