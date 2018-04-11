@@ -27,8 +27,7 @@ router.get('/folders/:folderName/contents', /*m.isAuthenticated,*/ function(req,
             val = val.split("/")[1];
             contents.push(val);
         };
-        console.log(contents);
-        res.render('contents');
+        res.render('contents', {contents: contents});
     })
     .catch(console.error);
 

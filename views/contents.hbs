@@ -1,31 +1,26 @@
-  <header>
-      <div class="collapse bg-dark" id="navbarHeader">
-        <div class="container">
-          <div class="row">
-            <div class="col-sm-8 col-md-7 py-4">
-              <h4 class="text-white">SecureFTP Info</h4>
-              <p class="text-muted">A better way to transfer secure data so you can focus on what matters. Take advantage of SecureFTP's simple web interface to store, transfer, and retrieve your data, any time, from anywhere on the web.</p>
-            </div>
-            <div class="col-sm-4 offset-md-1 py-4">
-              <h4 class="text-white">Contact</h4>
-              <ul class="list-unstyled">
-                <li><a href="#" class="text-white">Submit a Request</a></li>
-                <li><a href="#" class="text-white">Technical Support</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="navbar navbar-dark bg-dark box-shadow">
-        <div class="container d-flex">
-          <a href="/folders" class="navbar-brand d-flex mr-auto p-2 align-items-center">
-            <img src="https://cdn2.iconfinder.com/data/icons/circle-icons-1/64/folder-20.png" style="padding: 0px 5px 0px 0px;">
-            <strong>Folders</strong>
-          </a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <a href="/logout" class="btn btn-info my-2 margin-left">Logout</a>
-        </div>
-      </div>
-    </header>
+<link rel="stylesheet" type="text/css" href="/stylesheets/contents.css"> 
+
+<!-- Datatables CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+
+<div class="container">
+    <table id="table" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Size</th>
+                <th>Last Modified</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each contents}}
+            <tr>
+                <td><a href="">{{this}}</a></td>
+                <td>Size will go here.</td>
+                <td>Last Modified will go here.</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+

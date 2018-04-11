@@ -1,0 +1,11 @@
+.container {
+	width: 1024px;
+	padding: 2em;
+}
+
+.row-padding {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.margin-left { margin-left: 20px;}

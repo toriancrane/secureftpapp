@@ -4,7 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var session = require('express-session')
 var logger = require('morgan');
-//var handlebars = require('express-handlebars')
+var hbs = require('hbs')
+
 
 var indexRouter = require('./routes/index');
 var signupRouter = require('./routes/signup');
@@ -22,6 +23,7 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+hbs.registerPartials(__dirname + '/views/partials');
 
 app.use(logger('dev'));
 app.use(express.json());
