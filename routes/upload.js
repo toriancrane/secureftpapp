@@ -14,7 +14,7 @@ var s3 = new AWS.S3();
 
 
 /* GET upload page. */
-router.get('/folders/:folderName/upload', /*m.isAuthenticated, */function(req, res, next) {
+router.get('/folders/:folderName/upload', m.isAuthenticated, function(req, res, next) {
     
    /* // Create a bucket and upload something into it
     var bucketName = 'mb3-demo-files';
