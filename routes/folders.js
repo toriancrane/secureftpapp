@@ -33,8 +33,8 @@ router.get('/', m.isAuthenticated, function(req, res, next) {
                     return;
                 }
                 
-                console.log('Session validity: ' + session.isValid());
-                console.log('Session token ' + session.getIdToken().getJwtToken());
+                //console.log('Session validity: ' + session.isValid());
+                //console.log('Session token ' + session.getIdToken().getJwtToken());
                 
                 AWS.config.region = 'us-west-2';
 
