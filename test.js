@@ -1,18 +1,3 @@
-var express = require('express');
-var app = express();
-var router = express.Router();
-
-var AWS = require('aws-sdk');
-var uuid = require('node-uuid');
-var s3ls = require('s3-ls');
-var AmazonCognitoIdentity = require('amazon-cognito-identity-js');
-var CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
-
-
-var m = require('../modules/methods.js');
-
-
-/* GET Folders page. */
 router.get('/', m.isAuthenticated, function(req, res, next) {
     var userPoolId = req.app.locals.UserPoolId;
     var clientId = req.app.locals.ClientId;
@@ -35,8 +20,6 @@ router.get('/', m.isAuthenticated, function(req, res, next) {
                 
                 //console.log('Session validity: ' + session.isValid());
                 //console.log('Session token ' + session.getIdToken().getJwtToken());
-                //console.log("User Payload: " + JSON.stringify(session.getIdToken().payload));
-                //console.log("Group Info :" + session.getIdToken().payload['cognito:roles']);
                 
                 AWS.config.region = 'us-west-2';
 
@@ -50,12 +33,8 @@ router.get('/', m.isAuthenticated, function(req, res, next) {
                 
                 AWS.config.credentials.get(function(err) {
                     if (!err) {
-                      //var id = AWS.config.credentials.identityId;
-                      //console.log('Cognito Identity ID '+ id);
-                      
-                      //Retrieve role ID
-                      //Compare roleID to folder name
-                      //If roleID and folder name match, then push to folders array
+                      var id = AWS.config.credentials.identityId;
+                      console.log('Cognito Identity ID '+ id);
                       
                       // Instantiate aws sdk service objects now that the credentials have been updated
                       var s3 = new AWS.S3({
@@ -136,4 +115,65 @@ router.get('/', m.isAuthenticated, function(req, res, next) {
 
 });
 
-module.exports = router;
+
+Allow list of all buckets
+Limit access to specific folders within that bucket
+name the initial folder the role id and then limit access based on that id
+aws iam get-role --role-name ROLE-NAME
+
+Get role id(s) of current user, 
+use that variable(s) as the delimiter in the listbucket request?
+
+//Iterate through roles (in case of multiples), retrieve role ID, and save to array
+                      //For each role ID in array, compare to folder name
+                      //If roleID and folder name match, then push to folders array
+                      
+                      
+                      console.log("Group Info :" + session.getIdToken().payload['cognito:roles']);
+
+
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "s3:ListBucket"
+            ],
+            "Condition": {
+                "StringEquals": {
+                    "s3:delimiter": ["/"],
+                    "s3:prefix": ["","BUCKET_PATH/"]
+                }
+            },
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:s3:::BUCKET_NAME"
+            ]
+        },
+        {
+            "Action": [
+                "s3:ListBucket"
+            ],
+            "Condition": {
+                "StringLike": {
+                    "s3:prefix": ["BUCKET_PATH/BUCKET_SUB_PATH/*"]
+                }
+            },
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:s3:::BUCKET_NAME"
+            ]
+        },
+        {
+            "Action": [
+                "s3:DeleteObject",
+                "s3:PutObject"
+            ],
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:s3:::BUCKET_NAME/BUCKET_PATH/BUCKET_SUB_PATH/*"
+            ]
+        }
+    ]
+}

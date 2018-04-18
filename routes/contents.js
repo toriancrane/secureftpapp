@@ -17,9 +17,11 @@ var s3 = new AWS.S3({
     });
 
 /* GET contents page. */
-router.get('/folders/:folderName/contents', m.isAuthenticated, function(req, res, next) {
+router.get('/folders/:folderName/contents',/* m.isAuthenticated,*/ function(req, res, next) {
     
-    var contents = [];
+    //var contents = [];
+    //var signedUrl = [];
+    var contents = {};
     var folderName = req.params.folderName;
     s3.listObjects({}, function(err, data) {
         if (err) {
@@ -27,11 +29,18 @@ router.get('/folders/:folderName/contents', m.isAuthenticated, function(req, res
         }
         if (data) {
             
+            //console.log(data);
             for(var val in data.Contents){
                 //To get the list of folders
                 //Get the value of Key
+                var fullKey = data.Contents[val].Key;
                 var key = data.Contents[val].Key;
                 var folderMatch = '';
+                
+                //Signed URLs
+                var params = {Bucket: 'mb3-demo-files', Key: fullKey};
+                var url = s3.getSignedUrl('getObject', params);
+                //console.log('The URL is', url);
                 
                 //Split at the first /10]
                 folderMatch = key.split('/')[0];
@@ -39,8 +48,11 @@ router.get('/folders/:folderName/contents', m.isAuthenticated, function(req, res
                 
                 //If folder on page matches folder in S3 pull, and if value of key is not empty, push to array
                 if(folderName == folderMatch){
-                    if(key !== ''){
-                        contents.push(key);
+                    if(key !== '' && url !== ''){
+                        
+                        contents[key] = url;
+                        //contents.push(key);
+                        //signedUrl.push(url);
                     }
                 }
 
