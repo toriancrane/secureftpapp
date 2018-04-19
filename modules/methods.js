@@ -49,7 +49,7 @@ function uniq(a) {
     });
 }
 
-function checkDynamoMatch(folderName, subId){
+function checkDynamoMatch(folderName, subId, callback){
     
     folderName = folderName.toString();
     subId = subId.toString();
@@ -67,15 +67,15 @@ function checkDynamoMatch(folderName, subId){
     // Call DynamoDB to read the item from the table
     ddb.getItem(params, function(err, data) {
       if (err) {
-        console.log("Error", err);
+        callback(err, null);
       } else {
           for(var num in data.Item.UserId.L){
               var key = JSON.stringify(data.Item.UserId.L[num].S);
               if(subId === key ){
-                  //console.log('They are a match!' + '\n' + folderName);
-                  return folderName;
+                  //console.log('They are a match!' + '\n' + folderName + '\n');
+                  callback(err, folderName)
               }else{
-                  return '';
+                  callback(err, '');
               }
           }
       }

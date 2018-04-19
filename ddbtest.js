@@ -24,3 +24,10 @@ ddb.getItem(params, function(err, data) {
       }
   }
 });
+
+function squareAndCube(n, cb) {
+  var sq = n * n;
+  cb(sq, sq * n);
+}
+
+squareAndCube(10, console.log.bind(console, '10² = %d, 10³ = %d'));

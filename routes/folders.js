@@ -73,25 +73,24 @@ router.get('/', m.isAuthenticated, function(req, res, next) {
                                     //To get the list of folders
                                     //Get the value of Key
                                     var dynamoKey = data.Contents[val].Key;
-                                    var key = '';
-                                    
                                     
                                     //Split at the first /[0] 
                                     dynamoKey = dynamoKey.split('/')[0];
                                     
                                     //Check subId against DynamoDB foldername
-                                    key = m.checkDynamoMatch(dynamoKey, subId);
-                                    console.log(key);
-                                    
-                                    
-                                    if(key != undefined){
-                                        //Replace underscores with spaces
-                                        key = key.replace(/_/g, " ");
-                                        
-                                        //Push to array
-                                        folders.push(key);
-                                    }
-                                    
+                                    var key = m.checkDynamoMatch(dynamoKey, subId, function(err, key) {
+                                        if (err) {
+                                            // handle error
+                                        } else {
+                                            if(key != undefined && key != ''){
+                                                //Replace underscores with spaces
+                                                key = key.replace(/_/g, " ");
+                                                //console.log(key);
+                                                //Push to array
+                                                folders.push(key);
+                                            }
+                                        }
+                                    });
                                     
                                     
                                     //To get the list of file names
@@ -103,11 +102,11 @@ router.get('/', m.isAuthenticated, function(req, res, next) {
                                 }
                                 
                                 //Remove duplicates in array
-                                folders = m.uniq(folders);
-                                //console.log(folders);
-                                
-                                //Return the array
-                                res.render('folders', {folders: folders});
+                                setTimeout(function(){
+                                    folders = m.uniq(folders);
+                                    //Return the array
+                                    res.render('folders', {folders: folders});
+                                }, 2500);
                             }
                         });
                     }
@@ -119,31 +118,6 @@ router.get('/', m.isAuthenticated, function(req, res, next) {
       console.log(e);
       return;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    /*var lister = s3ls({bucket: 'mb3-demo-files'});
-    var s3Folders = [];
-    lister.ls('')
-    .then((data) => {
-        for(var i in data.folders){
-            var val = data.folders[i];
-            val = val.replace('/','');
-            s3Folders.push(val);
-        };
-        
-        res.render('folders', {folders: s3Folders});
-    })
-    .catch(console.error);*/
-    
-    //res.render('folders');
 
 });
 
