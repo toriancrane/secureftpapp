@@ -124,6 +124,13 @@ aws iam get-role --role-name ROLE-NAME
 Get role id(s) of current user, 
 use that variable(s) as the delimiter in the listbucket request?
 
+
+Use DynamoDB to filter folders? Make a User table and an Item table
+User table will have username and folder access
+Pull folder access values for logged in user
+Compare folder value to each "folder" returned from ListObjects
+If it matches, push the folder to the folders array
+
 //Iterate through roles (in case of multiples), retrieve role ID, and save to array
                       //For each role ID in array, compare to folder name
                       //If roleID and folder name match, then push to folders array

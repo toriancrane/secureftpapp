@@ -6,6 +6,10 @@ var AWS = require('aws-sdk');
 var AmazonCognitoIdentity = require('amazon-cognito-identity-js');
 var CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
 
+AWS.config.update({region: 'us-west-2'});
+
+var ddb = new AWS.DynamoDB({apiVersion: '2012-10-08'});
+
 function isAuthenticated(req, res, next){
     var userPoolId = req.app.locals.UserPoolId;
     var clientId = req.app.locals.ClientId;
@@ -45,5 +49,39 @@ function uniq(a) {
     });
 }
 
+function checkDynamoMatch(folderName, subId){
+    
+    folderName = folderName.toString();
+    subId = subId.toString();
+    
+    var params = {
+      AttributesToGet: [
+          "UserId"
+        ],
+      TableName: 'FolderAccess',
+      Key: {
+        'FolderName' : {S: folderName},
+      }
+    };
+    
+    // Call DynamoDB to read the item from the table
+    ddb.getItem(params, function(err, data) {
+      if (err) {
+        console.log("Error", err);
+      } else {
+          for(var num in data.Item.UserId.L){
+              var key = JSON.stringify(data.Item.UserId.L[num].S);
+              if(subId === key ){
+                  //console.log('They are a match!' + '\n' + folderName);
+                  return folderName;
+              }else{
+                  return '';
+              }
+          }
+      }
+    });
+}
+
 exports.isAuthenticated = isAuthenticated;
 exports.uniq = uniq;
+exports.checkDynamoMatch = checkDynamoMatch;

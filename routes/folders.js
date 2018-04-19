@@ -37,6 +37,8 @@ router.get('/', m.isAuthenticated, function(req, res, next) {
                 //console.log('Session token ' + session.getIdToken().getJwtToken());
                 //console.log("User Payload: " + JSON.stringify(session.getIdToken().payload));
                 //console.log("Group Info :" + session.getIdToken().payload['cognito:roles']);
+                //console.log("User Payload: " + JSON.stringify(session.getIdToken().payload['sub']));
+                var subId = JSON.stringify(session.getIdToken().payload['sub']);
                 
                 AWS.config.region = 'us-west-2';
 
@@ -52,10 +54,6 @@ router.get('/', m.isAuthenticated, function(req, res, next) {
                     if (!err) {
                       //var id = AWS.config.credentials.identityId;
                       //console.log('Cognito Identity ID '+ id);
-                      
-                      //Retrieve role ID
-                      //Compare roleID to folder name
-                      //If roleID and folder name match, then push to folders array
                       
                       // Instantiate aws sdk service objects now that the credentials have been updated
                       var s3 = new AWS.S3({
@@ -74,14 +72,27 @@ router.get('/', m.isAuthenticated, function(req, res, next) {
                                 for(var val in data.Contents){
                                     //To get the list of folders
                                     //Get the value of Key
-                                    var key = data.Contents[val].Key;
+                                    var dynamoKey = data.Contents[val].Key;
+                                    var key = '';
                                     
                                     
                                     //Split at the first /[0] 
-                                    key = key.split('/')[0];
+                                    dynamoKey = dynamoKey.split('/')[0];
                                     
-                                    //Push to array
-                                    folders.push(key);
+                                    //Check subId against DynamoDB foldername
+                                    key = m.checkDynamoMatch(dynamoKey, subId);
+                                    console.log(key);
+                                    
+                                    
+                                    if(key != undefined){
+                                        //Replace underscores with spaces
+                                        key = key.replace(/_/g, " ");
+                                        
+                                        //Push to array
+                                        folders.push(key);
+                                    }
+                                    
+                                    
                                     
                                     //To get the list of file names
                                     

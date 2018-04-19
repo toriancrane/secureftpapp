@@ -17,7 +17,7 @@ var s3 = new AWS.S3({
     });
 
 /* GET contents page. */
-router.get('/folders/:folderName/contents',/* m.isAuthenticated,*/ function(req, res, next) {
+router.get('/folders/:folderName/contents', m.isAuthenticated, function(req, res, next) {
     
     //var contents = [];
     //var signedUrl = [];
