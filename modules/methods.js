@@ -51,9 +51,6 @@ function uniq(a) {
 
 function checkDynamoMatch(folderName, subId, callback){
     
-    folderName = folderName.toString();
-    subId = subId.toString();
-    
     var params = {
       AttributesToGet: [
           "UserId"
@@ -67,17 +64,24 @@ function checkDynamoMatch(folderName, subId, callback){
     // Call DynamoDB to read the item from the table
     ddb.getItem(params, function(err, data) {
       if (err) {
+        console.log('There does not appear to be any data.');
         callback(err, null);
       } else {
-          for(var num in data.Item.UserId.L){
-              var key = JSON.stringify(data.Item.UserId.L[num].S);
+          //console.log('dataaaaaa', data);
+          if(data.Item){
+              for(var num in data.Item.UserId.L){
+              var key = data.Item.UserId.L[num].S;
+              console.log('SubID is: ' + subId + 'Key is: ' + key);
               if(subId === key ){
-                  //console.log('They are a match!' + '\n' + folderName + '\n');
-                  callback(err, folderName)
+                  callback(null, folderName)
               }else{
                   callback(err, '');
               }
           }
+          }else{
+              callback(err, '')
+          }
+          
       }
     });
 }
