@@ -85,9 +85,6 @@ router.get('/', m.isAuthenticated, function(req, res, next) {
                                             // handle error
                                         } else {
                                             if(key != undefined && key != ''){
-                                                //Replace underscores with spaces
-                                                //key = key.replace(/_/g, " ");
-                                                console.log('The name of the folder is: ' + key);
                                                 //Push to array
                                                 folders.push(key);
                                             }
@@ -108,7 +105,7 @@ router.get('/', m.isAuthenticated, function(req, res, next) {
                                     folders = m.uniq(folders);
                                     //Return the array
                                     res.render('folders', {folders: folders});
-                                }, 2500);
+                                }, 1100);
                             }
                         });
                     }

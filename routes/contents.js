@@ -19,9 +19,8 @@ var s3 = new AWS.S3({
 /* GET contents page. */
 router.get('/folders/:folderName/contents', m.isAuthenticated, function(req, res, next) {
     
-    //var contents = [];
+    var contents = [];
     //var signedUrl = [];
-    var contents = {};
     var folderName = req.params.folderName;
     s3.listObjects({}, function(err, data) {
         if (err) {
@@ -34,8 +33,10 @@ router.get('/folders/:folderName/contents', m.isAuthenticated, function(req, res
                 //To get the list of folders
                 //Get the value of Key
                 var fullKey = data.Contents[val].Key;
-                console.log(key);
+                //console.log(key);
                 var key = data.Contents[val].Key;
+                var fileSize = m.formatBytes(data.Contents[val].Size);
+                var lastMod = data.Contents[val].LastModified;
                 var folderMatch = '';
                 
                 //Signed URLs
@@ -51,7 +52,13 @@ router.get('/folders/:folderName/contents', m.isAuthenticated, function(req, res
                 if(folderName == folderMatch){
                     if(key !== '' && url !== ''){
                         
-                        contents[key] = url;
+                        var fileData = {
+                            "Name": key,
+                            "URL": url,
+                            "Size": fileSize,
+                            "LastMod": lastMod
+                        }
+                        contents.push(fileData);
                         //contents.push(key);
                         //signedUrl.push(url);
                     }
@@ -61,7 +68,7 @@ router.get('/folders/:folderName/contents', m.isAuthenticated, function(req, res
             
             //Remove duplicates in array
             //contents = m.uniq(contents);
-            //console.log(contents);
+            console.log(contents);
             
             //Return the array
             res.render('contents', {

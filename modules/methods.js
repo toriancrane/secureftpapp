@@ -71,7 +71,6 @@ function checkDynamoMatch(folderName, subId, callback){
           if(data.Item){
               for(var num in data.Item.UserId.L){
               var key = data.Item.UserId.L[num].S;
-              console.log('SubID is: ' + subId + 'Key is: ' + key);
               if(subId === key ){
                   callback(null, folderName)
               }else{
@@ -86,6 +85,17 @@ function checkDynamoMatch(folderName, subId, callback){
     });
 }
 
+function formatBytes(bytes,decimals) {
+   if(bytes == 0) return '0 Bytes';
+   var k = 1024,
+       dm = decimals || 2,
+       sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+       i = Math.floor(Math.log(bytes) / Math.log(k));
+   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+}
+
+
 exports.isAuthenticated = isAuthenticated;
 exports.uniq = uniq;
 exports.checkDynamoMatch = checkDynamoMatch;
+exports.formatBytes = formatBytes;
