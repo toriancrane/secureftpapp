@@ -8,7 +8,7 @@ var CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
 
 /* GET forgotpass page. */
 router.get('/', function(req, res, next) {
-  res.render('messages', {message: "Test message."});
+  res.render('messages');
 });
 
 module.exports = router;

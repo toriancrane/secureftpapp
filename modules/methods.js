@@ -8,7 +8,7 @@ var CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
 
 AWS.config.update({region: 'us-west-2'});
 
-var ddb = new AWS.DynamoDB({apiVersion: '2012-10-08'});
+var ddb = new AWS.DynamoDB();
 
 function isAuthenticated(req, res, next){
     var userPoolId = req.app.locals.UserPoolId;

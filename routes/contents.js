@@ -34,6 +34,7 @@ router.get('/folders/:folderName/contents', m.isAuthenticated, function(req, res
                 //To get the list of folders
                 //Get the value of Key
                 var fullKey = data.Contents[val].Key;
+                console.log(key);
                 var key = data.Contents[val].Key;
                 var folderMatch = '';
                 
@@ -60,7 +61,7 @@ router.get('/folders/:folderName/contents', m.isAuthenticated, function(req, res
             
             //Remove duplicates in array
             //contents = m.uniq(contents);
-            console.log(contents);
+            //console.log(contents);
             
             //Return the array
             res.render('contents', {

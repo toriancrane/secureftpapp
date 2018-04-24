@@ -39,6 +39,7 @@ router.get('/', m.isAuthenticated, function(req, res, next) {
                 //console.log("Group Info :" + session.getIdToken().payload['cognito:roles']);
                 //console.log("User Payload: " + JSON.stringify(session.getIdToken().payload['sub']));
                 var subId = JSON.stringify(session.getIdToken().payload['sub']);
+                console.log('The subId is: ' + subId);
                 
                 AWS.config.region = 'us-west-2';
 
@@ -76,6 +77,7 @@ router.get('/', m.isAuthenticated, function(req, res, next) {
                                     
                                     //Split at the first /[0] 
                                     dynamoKey = dynamoKey.split('/')[0];
+                                    //console.log(dynamoKey);
                                     
                                     //Check subId against DynamoDB foldername
                                     var key = m.checkDynamoMatch(dynamoKey, subId, function(err, key) {
@@ -84,7 +86,7 @@ router.get('/', m.isAuthenticated, function(req, res, next) {
                                         } else {
                                             if(key != undefined && key != ''){
                                                 //Replace underscores with spaces
-                                                key = key.replace(/_/g, " ");
+                                                //key = key.replace(/_/g, " ");
                                                 //console.log(key);
                                                 //Push to array
                                                 folders.push(key);
