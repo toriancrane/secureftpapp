@@ -36,7 +36,7 @@ router.get('/', m.isAuthenticated, function(req, res, next) {
                 //console.log('Session token ' + session.getIdToken().getJwtToken());
                 //console.log("User Payload: " + JSON.stringify(session.getIdToken().payload));
                 //console.log("Group Info :" + session.getIdToken().payload['cognito:roles']);
-                //console.log("User Payload: " + JSON.stringify(session.getIdToken().payload));
+                console.log("User Payload: " + JSON.stringify(session.getIdToken().payload));
                 var subId = session.getIdToken().payload['sub'];
                 //console.log('The subId is: ' + subId);
                 
@@ -68,7 +68,7 @@ router.get('/', m.isAuthenticated, function(req, res, next) {
                                 console.log(err)
                             }
                             if (data) {
-                                //console.log(data);
+                                //console.log(data.Contents);
                                 for(var val in data.Contents){
                                     //To get the list of folders
                                     //Get the value of Key
