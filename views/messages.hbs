@@ -1,8 +1,13 @@
 <div class="container">
     <div class="alert alert-info center-block text-center" role="alert">
-      <p>You have successfully uploaded your file!</p>
+      {{{messages}}}
+          {{#if errors}} 
+              {{#each errors}}
+                  {{msg}}
+              {{/each}} 
+          {{/if}}
       <div>
-          <a href="/folders" class="btn btn-secondary my-2">Folders</a>
+          <a href="/" class="btn btn-secondary my-2">Home</a>
       </div>
       
     </div>

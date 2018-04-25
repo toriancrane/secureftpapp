@@ -3,11 +3,10 @@ var app = express();
 var router = express.Router();
 
 var AWS = require('aws-sdk');
-var uuid = require('node-uuid');
-var s3ls = require('s3-ls');
 var AmazonCognitoIdentity = require('amazon-cognito-identity-js');
 var CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
 
+AWS.config.update({region: 'us-west-2'});
 
 var m = require('../modules/methods.js');
 
@@ -37,7 +36,7 @@ router.get('/', m.isAuthenticated, function(req, res, next) {
                 //console.log('Session token ' + session.getIdToken().getJwtToken());
                 //console.log("User Payload: " + JSON.stringify(session.getIdToken().payload));
                 //console.log("Group Info :" + session.getIdToken().payload['cognito:roles']);
-                //console.log("User Payload: " + JSON.stringify(session.getIdToken().payload['sub']));
+                //console.log("User Payload: " + JSON.stringify(session.getIdToken().payload));
                 var subId = session.getIdToken().payload['sub'];
                 //console.log('The subId is: ' + subId);
                 
@@ -105,7 +104,7 @@ router.get('/', m.isAuthenticated, function(req, res, next) {
                                     folders = m.uniq(folders);
                                     //Return the array
                                     res.render('folders', {folders: folders});
-                                }, 1100);
+                                }, 1000);
                             }
                         });
                     }

@@ -4,3 +4,11 @@
     text-align: right;
   }
 }
+
+.hidden {
+    display: none;
+}
+
+.container {
+  padding-top: 50px;
+}

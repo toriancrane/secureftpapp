@@ -49,7 +49,7 @@ router.post('/', function(req, res) {
         }
         var cognitoUser = result.user;
         var success_message = 'Registration success! Please log in.'
-        console.log('user name is ' + cognitoUser.getUsername());
+        //console.log('user name is ' + cognitoUser.getUsername());
         req.flash('info', success_message)
         res.redirect('/');
     });
