@@ -37,14 +37,8 @@ var upload = multer({
 /* GET upload page. */
 router.get('/folders/:folderName/upload', m.isAuthenticated, function(req, res, next) {
     folderName = req.params.folderName;
-    //console.log(folderName);
-    res.render('upload');
-
-});
-
-
-router.post('/folders/:folderName/upload', upload.array('fileName', 1), function(req, res, next) {
-    folderName = req.params.folderName;
+    console.log(folderName);
+    
     var userPoolId = req.app.locals.UserPoolId;
     var clientId = req.app.locals.ClientId;
     var identityPoolId = req.app.locals.IdentityPoolId;
@@ -56,18 +50,29 @@ router.post('/folders/:folderName/upload', upload.array('fileName', 1), function
     var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
     var cognitoUser = userPool.getCurrentUser();
     
-    if (cognitoUser != null) {
-          cognitoUser.getSession(function(err, session){
-              if(err){
+     if (cognitoUser != null){
+            cognitoUser.getSession(function(err, session){
+                if(err){
                     console.log(err);
                     return;
                 }
                 owner = session.getIdToken().payload['name'];
-                var success_message = 'You have successfully uploaded your file!'
-                req.flash('info', success_message)
-                res.redirect('/folders/'+ folderName + '/contents');
-          });
-        }
+                res.render('upload');
+            })
+     }
+    
+});
+
+
+router.post('/folders/:folderName/upload', upload.array('fileName', 1), function(req, res, next) {
+    folderName = req.params.folderName;
+    
+    console.log('Owner name" ' + owner);
+    
+    var success_message = 'You have successfully uploaded your file!'
+    req.flash('info', success_message)
+    res.redirect('/folders/'+ folderName + '/contents');
+  
 
 });
 
