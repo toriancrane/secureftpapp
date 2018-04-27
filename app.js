@@ -74,8 +74,8 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-/*app.listen(5001, function () {
+app.listen(3000, function () {
   console.log('Example app listening on port 5001!')
-})*/
+})
 
 module.exports = app;
