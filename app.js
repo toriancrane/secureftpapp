@@ -78,11 +78,4 @@ app.use(function(err, req, res, next) {
   console.log('Example app listening on port 5001!')
 })*/
 
-var http = require('http');
-http.createServer(function (req, res) {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.end('Hello World\n');
-}).listen(8080, '34.216.45.5');
-console.log('Server is running.');
-
 module.exports = app;
